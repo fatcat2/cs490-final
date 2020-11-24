@@ -37,9 +37,9 @@ output_file("evictions.html")
 # create a new plot
 p = figure(
    tools="pan,box_zoom,reset,save",
-   title="Number of evictions per day",
-   x_axis_label='Number of Evictions Filed',
-   y_axis_label='Eviction Rate',
+   title="Unemployment rate from 2010 to 2020 Sep.",
+   x_axis_label='Time',
+   y_axis_label='Unemployment rate',
    x_axis_type="datetime",
    plot_width=1600,
    plot_height=900
