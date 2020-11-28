@@ -4,6 +4,7 @@ from inspect import cleandoc
 from typing import Dict
 from bokeh.models.annotations import Legend
 from bokeh.models.sources import ColumnDataSource
+from bokeh.models.tools import HoverTool
 
 from bokeh.plotting import figure, output_file, show
 import numpy as np
@@ -72,7 +73,6 @@ p = figure(
    x_axis_type="datetime",
    plot_width=1600,
    plot_height=900,
-   tooltips=TOOLTIPS,
    y_range=(0, max(total_evictions) + 10)
 )
 
@@ -98,6 +98,12 @@ eviction_bar = p.vbar(
     legend_label="Daily eviction cases",
     source=source)
 
+eviction_hover = HoverTool(
+    renderers=[eviction_bar],
+    tooltips=TOOLTIPS
+)
+
+p.add_tools(eviction_hover)
 # p.circle(
 #     x="dates",
 #     y="evictions",
