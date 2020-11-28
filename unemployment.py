@@ -25,34 +25,52 @@ month_map = {
 # prepare some data
 df = pd.read_csv("unemployment.csv")
 
+df["DateString"] = df["Period"].astype("string") + " " + df["Year"].astype("string")
+
 df["Month"] = df["Period"].astype("string").map(month_map)
 
 df["label"] = df["Year"].astype("int64") + df["Month"]
 
-print(df)
-
 # output to static HTML file
-output_file("evictions.html")
+output_file("unemployment.html")
+
+TOOLTIPS = [
+    ("Date", "@labels"),
+    ("Unemployment rate", "@unemployment_rate%"),
+]
+
+source = ColumnDataSource(dict(
+    date=df["label"].to_numpy(),
+    unemployment_rate=df["unemployment rate"].to_numpy(),
+    labels=df["DateString"].to_numpy()
+))
 
 # create a new plot
 p = figure(
-   tools="pan,box_zoom,reset,save",
+   tools="reset,save",
    title="Unemployment rate from 2010 to 2020 Sep.",
-   x_axis_label='Time',
-   y_axis_label='Unemployment rate',
-   x_axis_type="datetime",
+   x_axis_label='Year',
+   y_axis_label='Unemployment rate (%)',
    plot_width=1600,
-   plot_height=900
+   plot_height=900,
+   tooltips=TOOLTIPS,
+   toolbar_location="below"
 )
 
 # add some renderers
 p.line(
-    x=df["label"],
-    y=df["unemployment"],
+    x="date",
+    y="unemployment_rate",
+    source=source,
+    color="#268bd2",
     width=5)
 
 
 p.sizing_mode = 'scale_width'
-
+p.xgrid.grid_line_color = None
+p.ygrid.grid_line_color = None
+p.outline_line_color = None
+p.background_fill_color = "#fdf6e3"
+p.border_fill_color = "#fdf6e3"
 # show the results
 show(p)
