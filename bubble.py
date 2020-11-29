@@ -38,6 +38,8 @@ df["Plaintiff"] = df.index
 df["Success label"] = df["Success rate"] * 100
 # initialize ColumnDataSource
 
+print(len(df["Plaintiff"].to_numpy()))
+
 source = ColumnDataSource(dict(
     plaintiff=df["Plaintiff"],
     count=df["Count"],
@@ -88,6 +90,5 @@ p.add_tools(circle_hover)
 p.sizing_mode = 'scale_width'
 p.background_fill_color = "#fdf6e3"
 p.border_fill_color = "#fdf6e3"
-p.outline_line_color = None
-p.yaxis.formatter=NumeralTickFormatter(format="0%")
+p.yaxis.formatter=NumeralTickFormatter(format="0.00%")
 show(p)
