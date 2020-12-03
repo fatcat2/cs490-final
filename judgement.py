@@ -27,8 +27,9 @@ df["Evicted"] = df["Evicted"].astype("string").map({"True": True, "False": False
 df["File date original"] = df["File date"]
 df["File date"] = pd.to_datetime(df["File date"])
 df["Color"] = df["Evicted"].astype("bool").map({True: "#268bd2", False: "#dc322f"})
-df["Legend label"] = df["Evicted"].astype("bool").map({True: "Evicted", False: "Case dismissed"})
+df["Legend label"] = df["Evicted"].astype("bool").map({True: "Successful Eviction", False: "Case dismissed"})
 df["Evicted"] = df["Evicted"].astype("bool").map({True: "Yes", False: "No"})
+df = df[df["Evicted"] == "Yes"]
 df = df.sort_values(by="File date")
 # initialize ColumnDataSource
 
@@ -69,7 +70,7 @@ LINE_TOOLTIPS = [
 # create a new plot
 p = figure(
    tools="pan,box_zoom,reset,save",
-   title="Judgement amount per eviction",
+   title="Judgement amount per granted eviction",
    x_axis_label='Evictions filed since May 1',
    y_axis_label='Judgement amount',
    plot_width=1600,
